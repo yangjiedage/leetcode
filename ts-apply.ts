@@ -13,9 +13,22 @@ type MyExtract<T, U> = U extends T ? U : never
 type MyExclude<T, E> = T extends E ? never : T;
 
 // extends 判断的意思，左边能不能赋值给右边
+// keyof any === string | number | symbol
 type MyOmit<T, K extends string | number | symbol> = {
   [P in keyof T as P extends K ? never : P]: T[P]
 }
+
+interface Person{
+  name: string;
+  age: number;
+  height: number;
+}
+
+type omitP = MyOmit<Person, 'name' | 'age'>
+type myPick<T, K extends keyof T> = {
+  [P in keyof T as P extends K ? P : never]: T[P]
+}
+type pickP = myPick<Person, 'age' | 'height'>
 
 type MyOmit2<T, K extends string | number | symbol> = {
   [P in Exclude<keyof T, K>]: T[P]
